@@ -39,9 +39,8 @@ df = spark.read.option("delimiter", "\t").option("header", "true").csv(path)
 df = df.withColumn('event_type', lower(col('event_type')))
 
 df_with_err_mask = df.withColumn('err_mask', 
-								 F.when(df["event_type"].contains("error"), 
-								 lit('err')).otherwise(df['event_page'])
-								 )
+				 F.when(df["event_type"].contains("error"), 
+				 lit('err')).otherwise(df['event_page']))
 
 df2 = (df_with_err_mask
  .groupBy(["user_id", "session_id"])
